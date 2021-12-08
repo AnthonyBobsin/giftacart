@@ -5,11 +5,11 @@ const AddressField = ({ source }) => {
   const record = useRecordContext();
   const address = record[source];
 
-  return (
+  return address ? (
     <span>
       {address.street}, {address.city}, {address.zipcode}
     </span>
-  );
+  ) : "";
 };
 
 export const UserEdit = props => (
