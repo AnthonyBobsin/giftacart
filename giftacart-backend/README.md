@@ -1,24 +1,17 @@
-# README
+# Setup
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Ensure Ruby version 3.0.0 is installed.
 
-Things you may want to cover:
+Install dependencies and setup database (sqlite3).
 
-* Ruby version
+```sh
+bundle install
+bundle exec rails db:migrate
+RAILS_ENV=test bundle exec rails db:migrate
+```
 
-* System dependencies
+Run tests to confirm setup.
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```sh
+bundle exec rspec
+```
