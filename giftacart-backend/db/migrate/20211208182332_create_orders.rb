@@ -10,7 +10,7 @@ class CreateOrders < ActiveRecord::Migration[6.0]
       t.string :gift_comment
       t.integer :store_id
       t.integer :timeslot_id
-      t.integer :bulk_order_num
+      t.string :bulk_order_num
 
       t.timestamps
     end

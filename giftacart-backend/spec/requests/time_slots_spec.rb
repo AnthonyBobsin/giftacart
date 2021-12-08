@@ -17,11 +17,19 @@ RSpec.describe "/time_slots", type: :request do
   # TimeSlot. As you add validations to TimeSlot, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {
+      from_time: "09:00:00",
+      to_time: "10:00:00",
+      store_id: 1,
+    }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {
+      from_time: "09:00:00",
+      to_time: "10:00:00",
+      store_id: nil,
+    }
   }
 
   # This should return the minimal set of values that should be in the headers
@@ -85,7 +93,10 @@ RSpec.describe "/time_slots", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        {
+          from_time: "09:00:00",
+          to_time: "11:00:00",
+        }
       }
 
       it "updates the requested time_slot" do

@@ -17,11 +17,19 @@ RSpec.describe "/products", type: :request do
   # Product. As you add validations to Product, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {
+      name: "Fairlife Milk 2%"
+      unit_price: 5.75
+      store_id: 1
+    }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {
+      name: "Fairlife Milk 2%"
+      unit_price: 5.75
+      store_id: nil
+    }
   }
 
   # This should return the minimal set of values that should be in the headers
@@ -85,7 +93,9 @@ RSpec.describe "/products", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        {
+          unit_price: 6.75
+        }
       }
 
       it "updates the requested product" do

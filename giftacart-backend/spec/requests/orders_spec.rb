@@ -17,11 +17,33 @@ RSpec.describe "/orders", type: :request do
   # Order. As you add validations to Order, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {
+      user_id: 1,
+      sub_total: 10.00,
+      fulfillment_date: '2021-12-08',
+      fees_total: 2.00,
+      tax_total: 1.13,
+      final_total: 13.13,
+      gift_comment: "Merry Christmas!",
+      store_id: 1,
+      timeslot_id: 1,
+      bulk_order_num: '1'
+    }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {
+      user_id: nil,
+      sub_total: 11.50,
+      fulfillment_date: '2021-12-08',
+      fees_total: 2.00,
+      tax_total: 1.50,
+      final_total: 15.00,
+      gift_comment: "Merry Christmas!",
+      store_id: 1,
+      timeslot_id: 1,
+      bulk_order_num: '1'
+    }
   }
 
   # This should return the minimal set of values that should be in the headers
@@ -85,7 +107,9 @@ RSpec.describe "/orders", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        {
+          gift_comment: "Happy New Year!"
+        }
       }
 
       it "updates the requested order" do

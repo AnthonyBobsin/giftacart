@@ -17,11 +17,29 @@ RSpec.describe "/stores", type: :request do
   # Store. As you add validations to Store, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {
+      name: "Liberty Village Store #1",
+      street_address: "190 Liberty Street",
+      city: "Toronto",
+      postal_code: "M6K3L5",
+      state: "Ontario",
+      country: "Canada",
+      phone_number: "555-123-4567"
+      postal_codes: []
+    }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {
+      name: nil,
+      street_address: nil,
+      city: "Toronto",
+      postal_code: "M6K3L5",
+      state: "Ontario",
+      country: "Canada",
+      phone_number: "555-123-4567"
+      postal_codes: []
+    }
   }
 
   # This should return the minimal set of values that should be in the headers
@@ -85,7 +103,9 @@ RSpec.describe "/stores", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        {
+          phone_number: "555-345-6789"
+        }
       }
 
       it "updates the requested store" do
