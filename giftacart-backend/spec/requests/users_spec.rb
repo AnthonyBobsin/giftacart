@@ -17,11 +17,19 @@ RSpec.describe "/users", type: :request do
   # User. As you add validations to User, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {
+      first_name: "Bobby",
+      street_address: "190 Liberty Street",
+      postal_code: "M6K3L5",
+    }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {
+      first_name: "Bobby",
+      street_address: "190 Liberty Street",
+      postal_code: nil,
+    }
   }
 
   # This should return the minimal set of values that should be in the headers
@@ -77,7 +85,7 @@ RSpec.describe "/users", type: :request do
         post users_url,
              params: { user: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq("application/json")
+        expect(response.content_type).to match(a_string_including("application/json"))
       end
     end
   end
@@ -85,7 +93,9 @@ RSpec.describe "/users", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        {
+          last_name: "Jay",
+        }
       }
 
       it "updates the requested user" do
@@ -93,7 +103,7 @@ RSpec.describe "/users", type: :request do
         patch user_url(user),
               params: { user: new_attributes }, headers: valid_headers, as: :json
         user.reload
-        skip("Add assertions for updated state")
+        expect(user.last_name).to eq(new_attributes[:last_name])
       end
 
       it "renders a JSON response with the user" do
@@ -111,7 +121,7 @@ RSpec.describe "/users", type: :request do
         patch user_url(user),
               params: { user: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq("application/json")
+        expect(response.content_type).to match(a_string_including("application/json"))
       end
     end
   end
