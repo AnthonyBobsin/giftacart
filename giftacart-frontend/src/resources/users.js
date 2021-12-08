@@ -1,7 +1,7 @@
 import * as React from "react";
 import { List, Datagrid, TextField, EmailField, useRecordContext, Edit, SimpleForm, TextInput, Create } from "react-admin";
 
-const AddressField = ({ source }) => {
+export const AddressField = ({ source }) => {
   const record = useRecordContext();
   const address = record[source];
 
