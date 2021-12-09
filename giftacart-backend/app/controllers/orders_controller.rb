@@ -3,7 +3,7 @@ class OrdersController < ApplicationController
 
   # GET /orders
   def index
-    @orders = if filtering_params
+    @orders = if filtering_params.present?
       Order.where(**filtering_params)
     else
       Order.all
@@ -66,6 +66,7 @@ class OrdersController < ApplicationController
         :store_id,
         :timeslot_id,
         :bulk_order_num,
+        :status,
         order_items_attributes: [
           :name,
           :product_id,
