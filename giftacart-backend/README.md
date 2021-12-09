@@ -10,6 +10,11 @@ bundle exec rails db:migrate
 RAILS_ENV=test bundle exec rails db:migrate
 ```
 
+Run backend server
+```sh
+rails s -p 3001
+```
+
 Run tests to confirm setup.
 
 ```sh
