@@ -40,7 +40,7 @@ const PlaceOrder = connect(undefined, { showNotification })(props => {
 
       // TODO(bobsin): move this to users
       const store = 1;
-      const storeProducts = selectedProducts.filter(p => p.store === store);
+      const storeProducts = selectedProducts.filter(p => p.store_id === store);
 
       const ordersToCreate = selectedUsers.map((user, i) => ({
         created_at: new Date().toISOString(),
@@ -56,7 +56,7 @@ const PlaceOrder = connect(undefined, { showNotification })(props => {
           unit_price: product.unit_price,
         })),
         // items: selectedProducts.filter(p => p.store === store),
-        sub_total: storeProducts.reduce((memo, current) => memo + parseFloat(current.price), 0),
+        sub_total: storeProducts.reduce((memo, current) => memo + parseFloat(current.unit_price), 0),
       }));
       const numOrders = ordersToCreate.length;
 

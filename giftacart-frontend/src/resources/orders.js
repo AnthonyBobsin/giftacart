@@ -2,7 +2,7 @@ import * as React from "react";
 import { Button, Datagrid, DateField, ExportButton, List, ReferenceField, TextField, TopToolbar, useRecordContext } from "react-admin";
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import AddIcon from '@material-ui/icons/Add';
-import { AddressField } from "./users";
+import { AddressField, FullNameField } from "./users";
 
 export const ItemsField = ({ source }) => {
   const record = useRecordContext();
@@ -29,18 +29,18 @@ const ListActions = props => {
 export const OrderList = props => (
   <List {...props} actions={<ListActions onCreate={() => props.history.push("/orders/new")} />}>
     <Datagrid rowClick="edit">
-      <TextField source="reference" />
-      <TextField source="group_code" />
+      <TextField source="id" />
+      <TextField source="bulk_order_num" label="Order Group" />
       <ReferenceField source="user_id" reference="users">
-        <TextField source="name" />
+        <FullNameField label="Name" />
       </ReferenceField>
       <ReferenceField source="user_id" reference="users" label="Address" link={false}>
-        <AddressField source="address" />
+        <AddressField label="Address" />
       </ReferenceField>
       <DateField source="created_at" label="Created"/>
       <DateField source="delivered_at" label="Delivered"/>
       <ItemsField source="items" />
-      <TextField source="total" />
+      <TextField source="sub_total" />
     </Datagrid>
   </List>
 );

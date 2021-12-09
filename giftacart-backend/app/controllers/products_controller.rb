@@ -3,11 +3,7 @@ class ProductsController < ApplicationController
 
   # GET /products
   def index
-<<<<<<< Updated upstream
-    @products = Product.where(**filtering_params)
-=======
     @products = Product.joins(:store).select('products.*, stores.name as store_name')
->>>>>>> Stashed changes
 
     render json: @products
   end
