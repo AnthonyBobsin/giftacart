@@ -16,12 +16,13 @@ export const AddressField = ({ source }) => {
 const UserEdit = props => (
   <Edit {...props}>
     <SimpleForm>
-      <TextInput source="name" />
+      <TextInput source="first_name" />
+      <TextInput source="last_name" />
       <TextInput source="email" />
-      <TextInput source="phone" />
-      <TextInput source="address.street" label="Street Address" />
-      <TextInput source="address.city" label="City" />
-      <TextInput source="address.zipcode" label="Postal Code" /> 
+      <TextInput source="phone_number" />
+      <TextInput source="street_address" label="Street Address" />
+      <TextInput source="city" label="City" />
+      <TextInput source="postal_code" label="Postal Code" /> 
     </SimpleForm>
   </Edit>
 );
@@ -29,12 +30,13 @@ const UserEdit = props => (
 const UserCreate = props => (
   <Create {...props}>
     <SimpleForm>
-      <TextInput source="name" />
+      <TextInput source="first_name" />
+      <TextInput source="last_name" />
       <TextInput source="email" />
-      <TextInput source="phone" />
-      <TextInput source="address.street" label="Street Address" />
-      <TextInput source="address.city" label="City" />
-      <TextInput source="address.zipcode" label="Postal Code" /> 
+      <TextInput source="phone_number" />
+      <TextInput source="street_address" label="Street Address" />
+      <TextInput source="city" label="City" />
+      <TextInput source="postal_code" label="Postal Code" /> 
     </SimpleForm>
   </Create>
 );
@@ -42,10 +44,13 @@ const UserCreate = props => (
 export const UserList = props => (
   <List {...props}>
     <Datagrid rowClick="edit">
-      <TextField source="name" />
+      <TextField source="first_name" />
+      <TextField source="last_name" />
       <EmailField source="email" type="email" />
-      <TextField source="phone" />
-      <AddressField source="address"/>
+      <TextField source="phone_number" />
+      <TextInput source="street_address" label="Street Address" />
+      <TextInput source="city" label="City" />
+      <TextInput source="postal_code" label="Postal Code" /> 
     </Datagrid>
   </List>
 );
