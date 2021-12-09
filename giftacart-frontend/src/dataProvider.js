@@ -21,10 +21,43 @@ const dataProvider = fakeDataProvider({
       delivered_at: "2021-12-06T12:01:04Z",
       reference: "KWFWV09",
       user_id: 1,
+      store: 1,
       items: [],
       total: "13.32",
     }
   ],
+  products: [
+    {
+      name: "Red Wine Merlot",
+      price: "14.99",
+      image_url: "https://www.lcbo.com/content/dam/lcbo/products/140129.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg",
+      store: 1,
+      id: "item-123123",
+    },
+    {
+      name: "Crackers",
+      price: "3.99",
+      image_url: "https://www.lcbo.com/content/dam/lcbo/products/140129.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg",
+      store: 1,
+      id: "item-123456",
+    },
+    {
+      name: "Cheese",
+      price: "5.99",
+      image_url: "https://www.lcbo.com/content/dam/lcbo/products/140129.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg",
+      store: 1,
+      id: "item-123789",
+    },
+  ],
+  time_slots: [
+    {
+      id: "slot-909",
+      date: "2021-12-14",
+      window_starts_at: "2021-12-14T13:00:00Z",
+      window_ends_at: "2021-12-14T15:00:00Z",
+      store: 1,
+    }
+  ]
 });
 
 export default dataProvider;
