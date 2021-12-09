@@ -3,7 +3,7 @@ class OrdersController < ApplicationController
 
   # GET /orders
   def index
-    @orders = Order.all
+    @orders = Order.where(**filtering_params)
 
     render json: @orders
   end
@@ -44,11 +44,31 @@ class OrdersController < ApplicationController
       @order = Order.find(params[:id])
     end
 
+    # Params to filter results by if passed
+    def filtering_params
+      params.slice(:fulfillment_date, :store_id, :timeslot_id, :bulk_order_num).permit!
+    end
+
     # Only allow a trusted parameter "white list" through.
     def order_params
       params.require(:order).permit(
-        :user_id, :sub_total, :fulfillment_date, :fees_total, :tax_total, :final_total, :gift_comment, :store_id, :timeslot_id, :bulk_order_num,
-        order_items_attributes: [:name, :product_id, :quantity, :uom, :unit_price]
+        :user_id,
+        :sub_total,
+        :fulfillment_date,
+        :fees_total,
+        :tax_total,
+        :final_total,
+        :gift_comment,
+        :store_id,
+        :timeslot_id,
+        :bulk_order_num,
+        order_items_attributes: [
+          :name,
+          :product_id,
+          :quantity,
+          :uom,
+          :unit_price
+        ]
       )
     end
 end

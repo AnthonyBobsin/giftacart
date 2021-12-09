@@ -114,6 +114,15 @@ RSpec.describe "/orders", type: :request do
       get orders_url, headers: valid_headers, as: :json
       expect(response).to be_successful
     end
+
+    it "fetches subset of orders" do
+      Order.create! valid_attributes
+      Order.create! valid_attributes.merge({:bulk_order_num => '2'})
+      get orders_url({ bulk_order_num: '1' }), headers: valid_headers, as: :json
+
+      expect(response).to be_successful
+      expect(JSON.parse(response.body).size).to eq(1)
+    end
   end
 
   describe "GET /show" do
