@@ -62,6 +62,7 @@ class OrdersController < ApplicationController
         :store_id,
         :timeslot_id,
         :bulk_order_num,
+        :status,
         order_items_attributes: [
           :name,
           :product_id,

@@ -33,16 +33,30 @@ const PlaceOrder = connect(undefined, { showNotification })(props => {
 
   const handleNext = () => {
     if (activeStep == Object.keys(stepComponents).length - 1) {
-      const ordersToCreate = selectedUsers.map(user => ({
-        group_code: "testing",
+      const timeSlotsByStore = selectedTimeSlots.reduce((memo, current) => {
+        memo[current.store_id] = current;
+        return memo;
+      }, {});
+
+      // TODO(bobsin): move this to users
+      const store = 1;
+      const storeProducts = selectedProducts.filter(p => p.store === store);
+
+      const ordersToCreate = selectedUsers.map((user, i) => ({
         created_at: new Date().toISOString(),
         delivered_at: null,
-        // TODO(bobsin): attach this to user
-        store: user.store || 1,
-        reference: "ABCTEST",
+        store_id: store,
+        bulk_order_num: "testing",
+        timeslot_id: timeSlotsByStore[store].id,
         user_id: user.id,
-        items: selectedProducts.filter(p => p.store == (user.store || 1)),
-        total: selectedProducts.filter(p => p.store == (user.store || 1)).reduce((memo, current) => memo + parseFloat(current.price), 0),
+        status: "new",
+        order_item_attributes: storeProducts.map(product => ({
+          name: product.name,
+          product_id: product.id,
+          unit_price: product.unit_price,
+        })),
+        // items: selectedProducts.filter(p => p.store === store),
+        sub_total: storeProducts.reduce((memo, current) => memo + parseFloat(current.price), 0),
       }));
       const numOrders = ordersToCreate.length;
 

@@ -2,16 +2,7 @@ import React, { useState, useEffect, Fragment } from "react";
 import { Accordion, AccordionSummary, AccordionDetails, CardContent, Grid, List, ListItem } from "@material-ui/core";
 import { Button, useDataProvider } from "react-admin";
 import ExpandMore from '@material-ui/icons/ExpandMore';
-
-const formatTime = iso8601 => {
-  const time = new Date(iso8601);
-  return time.toLocaleString("en-US", { timeStyle: "short" });
-}
-
-const formatDate = iso8601 => {
-  const time = new Date(iso8601);
-  return time.toLocaleString("en-US", { weekday: "long", month: "long", day: "numeric" });
-}
+import { humanDate, humanTime } from "../utils/formatTime";
 
 const SelectTimeSlots = props => {
   const { selectedTimeSlots, setSelectedTimeSlots } = props;
@@ -29,7 +20,7 @@ const SelectTimeSlots = props => {
   }, [])
 
   const timeslotsByDate = timeslots.reduce((memo, current) => {
-    const date = formatDate(current.from_time);
+    const date = humanDate(current.from_time);
 
     if (!(date in memo)) {
       memo[date] = [];
@@ -54,7 +45,7 @@ const SelectTimeSlots = props => {
               {timeslotsByDate[date].map((timeSlot, idx2) => (
                 <Grid justifyContent="space-between" container key={idx2}>
                   <Grid item style={{ margin: "auto 0" }}>
-                    {`${formatTime(timeSlot.from_time)} - ${formatTime(timeSlot.to_time)}`}
+                    {`${humanTime(timeSlot.from_time)} - ${humanTime(timeSlot.to_time)}`}
                   </Grid>
                   <Grid item>
                     {
