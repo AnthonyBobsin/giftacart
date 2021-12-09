@@ -21,6 +21,7 @@ const dataProvider = fakeDataProvider({
       delivered_at: "2021-12-06T12:01:04Z",
       reference: "KWFWV09",
       user_id: 1,
+      store: 1,
       items: [],
       total: "13.32",
     }

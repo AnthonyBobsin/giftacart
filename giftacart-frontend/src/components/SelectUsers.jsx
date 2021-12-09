@@ -24,6 +24,7 @@ const SelectUsers = props => {
     return memo;
   }, {});
 
+  const selectedUserIds = selectedUsers.map(u => u.id);
   const dataGridProps = {
     hasBulkActions: true,
     onSelect: console.log,
@@ -31,13 +32,14 @@ const SelectUsers = props => {
     data: usersById,
     basePath: "/users",
     ids: Object.keys(usersById),
-    selectedIds: selectedUsers,
+    selectedIds: selectedUserIds.map(id => id.toString()),
     total: users.length,
     onToggleItem: id => {
+      id = parseInt(id);
       setSelectedUsers(
-        selectedUsers.includes(id) ?
-          selectedUsers.filter(uid => uid !== id) :
-          [...selectedUsers, id]
+        selectedUserIds.includes(id) ?
+          selectedUsers.filter(u => u.id !== id) :
+          [...selectedUsers, usersById[id]]
       );
     },
     // TODO(bobsin): include pagination
