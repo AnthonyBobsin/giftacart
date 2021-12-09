@@ -16,32 +16,86 @@ RSpec.describe "/orders", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # Order. As you add validations to Order, be sure to
   # adjust the attributes here as well.
+  let(:user) do
+    User.create!(
+      {
+        first_name: "Bobby",
+        street_address: "190 Liberty Street",
+        postal_code: "M6K3L5",
+      }
+    )
+  end
+
+  let(:store) do
+    Store.create!(
+      {
+        name: "Liberty Village Store #1",
+        street_address: "190 Liberty Street",
+        city: "Toronto",
+        postal_code: "M6K3L5",
+        state: "Ontario",
+        country: "Canada",
+        phone_number: "555-123-4567",
+        postal_codes: []
+      }
+    )
+  end
+
+  let(:timeslot) do
+    TimeSlot.create!(
+      {
+        from_time: "09:00:00",
+        to_time: "10:00:00",
+        store_id: store.id,
+      }
+    )
+  end
+
+  let(:product) do
+    Product.create!(
+      {
+        name: "Fairlife Milk 2%",
+        unit_price: 5.75,
+        store_id: 1
+      }
+    )
+  end
+
   let(:valid_attributes) {
     {
-      user_id: 1,
+      user_id: user.id,
       sub_total: 10.00,
       fulfillment_date: '2021-12-08',
       fees_total: 2.00,
       tax_total: 1.13,
       final_total: 13.13,
       gift_comment: "Merry Christmas!",
-      store_id: 1,
-      timeslot_id: 1,
-      bulk_order_num: '1'
+      store_id: store.id,
+      timeslot_id: timeslot.id,
+      bulk_order_num: '1',
+      order_items_attributes: [
+        {
+          name: "Fairlife Milk 2%",
+          product_id: product.id,
+          unit_price: 5.75,
+          quantity: 2,
+          uom: 'each'
+        }
+      ]
     }
   }
 
   let(:invalid_attributes) {
     {
-      user_id: nil,
+      user_id: user.id,
       sub_total: 11.50,
-      fulfillment_date: '2021-12-08',
+      fulfillment_date: nil,
       fees_total: 2.00,
       tax_total: 1.50,
       final_total: 15.00,
       gift_comment: "Merry Christmas!",
-      store_id: 1,
-      timeslot_id: 1,
+      store_id: store.id,
+      timeslot_id: timeslot.id,
       bulk_order_num: '1'
     }
   }
@@ -99,7 +153,7 @@ RSpec.describe "/orders", type: :request do
         post orders_url,
              params: { order: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq("application/json")
+        expect(response.content_type).to match(a_string_including("application/json"))
       end
     end
   end
@@ -117,7 +171,7 @@ RSpec.describe "/orders", type: :request do
         patch order_url(order),
               params: { order: new_attributes }, headers: valid_headers, as: :json
         order.reload
-        skip("Add assertions for updated state")
+        expect(order.gift_comment).to eq(new_attributes[:gift_comment])
       end
 
       it "renders a JSON response with the order" do
@@ -135,7 +189,7 @@ RSpec.describe "/orders", type: :request do
         patch order_url(order),
               params: { order: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq("application/json")
+        expect(response.content_type).to match(a_string_including("application/json"))
       end
     end
   end

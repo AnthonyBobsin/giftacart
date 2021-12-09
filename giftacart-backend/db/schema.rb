@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(version: 2021_12_08_182502) do
   create_table "order_items", force: :cascade do |t|
     t.integer "order_id", null: false
     t.string "name"
+    t.integer "product_id", null: false
     t.float "quantity"
     t.string "uom"
     t.decimal "unit_price"
@@ -33,7 +34,7 @@ ActiveRecord::Schema.define(version: 2021_12_08_182502) do
     t.string "gift_comment"
     t.integer "store_id"
     t.integer "timeslot_id"
-    t.integer "bulk_order_num"
+    t.string "bulk_order_num"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_orders_on_user_id"

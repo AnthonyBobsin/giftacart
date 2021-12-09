@@ -24,7 +24,7 @@ RSpec.describe "/stores", type: :request do
       postal_code: "M6K3L5",
       state: "Ontario",
       country: "Canada",
-      phone_number: "555-123-4567"
+      phone_number: "555-123-4567",
       postal_codes: []
     }
   }
@@ -37,7 +37,7 @@ RSpec.describe "/stores", type: :request do
       postal_code: "M6K3L5",
       state: "Ontario",
       country: "Canada",
-      phone_number: "555-123-4567"
+      phone_number: "555-123-4567",
       postal_codes: []
     }
   }

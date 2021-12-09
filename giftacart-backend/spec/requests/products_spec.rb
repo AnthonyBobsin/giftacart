@@ -18,16 +18,16 @@ RSpec.describe "/products", type: :request do
   # adjust the attributes here as well.
   let(:valid_attributes) {
     {
-      name: "Fairlife Milk 2%"
-      unit_price: 5.75
+      name: "Fairlife Milk 2%",
+      unit_price: 5.75,
       store_id: 1
     }
   }
 
   let(:invalid_attributes) {
     {
-      name: "Fairlife Milk 2%"
-      unit_price: 5.75
+      name: "Fairlife Milk 2%",
+      unit_price: 5.75,
       store_id: nil
     }
   }
