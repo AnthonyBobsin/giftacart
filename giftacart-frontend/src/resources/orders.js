@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Datagrid, DateField, List, ReferenceField, TextField, useRecordContext } from "react-admin";
+import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import { AddressField } from "./users";
 
 export const ItemsField = ({ source }) => {
@@ -29,3 +30,9 @@ export const OrderList = props => (
     </Datagrid>
   </List>
 );
+
+const orders = {
+  icon: LibraryBooksIcon,
+  list: OrderList,
+};
+export default orders;

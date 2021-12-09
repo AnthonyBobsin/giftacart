@@ -1,5 +1,6 @@
 import * as React from "react";
 import { List, Datagrid, TextField, EmailField, useRecordContext, Edit, SimpleForm, TextInput, Create } from "react-admin";
+import PersonIcon from '@material-ui/icons/Person';
 
 export const AddressField = ({ source }) => {
   const record = useRecordContext();
@@ -12,7 +13,7 @@ export const AddressField = ({ source }) => {
   ) : "";
 };
 
-export const UserEdit = props => (
+const UserEdit = props => (
   <Edit {...props}>
     <SimpleForm>
       <TextInput source="name" />
@@ -25,7 +26,7 @@ export const UserEdit = props => (
   </Edit>
 );
 
-export const UserCreate = props => (
+const UserCreate = props => (
   <Create {...props}>
     <SimpleForm>
       <TextInput source="name" />
@@ -42,9 +43,20 @@ export const UserList = props => (
   <List {...props}>
     <Datagrid rowClick="edit">
       <TextField source="name" />
-      <EmailField source="email" />
+      <EmailField source="email" type="email" />
       <TextField source="phone" />
       <AddressField source="address"/>
     </Datagrid>
   </List>
 );
+
+const users =  {
+  icon: PersonIcon,
+  list: props => {
+    console.log(props);
+    return <UserList {...props} />;
+  },
+  edit: UserEdit,
+  create: UserCreate,
+};
+export default users;

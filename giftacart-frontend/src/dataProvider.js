@@ -25,6 +25,29 @@ const dataProvider = fakeDataProvider({
       total: "13.32",
     }
   ],
+  products: [
+    {
+      name: "Red Wine Merlot",
+      price: "14.99",
+      image_url: "https://www.lcbo.com/content/dam/lcbo/products/140129.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg",
+      store: 1,
+      id: "item-123123",
+    },
+    {
+      name: "Crackers",
+      price: "3.99",
+      image_url: "https://www.lcbo.com/content/dam/lcbo/products/140129.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg",
+      store: 1,
+      id: "item-123456",
+    },
+    {
+      name: "Cheese",
+      price: "5.99",
+      image_url: "https://www.lcbo.com/content/dam/lcbo/products/140129.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg",
+      store: 1,
+      id: "item-123789",
+    },
+  ]
 });
 
 export default dataProvider;
