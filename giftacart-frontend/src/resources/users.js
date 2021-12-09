@@ -2,13 +2,13 @@ import * as React from "react";
 import { List, Datagrid, TextField, EmailField, useRecordContext, Edit, SimpleForm, TextInput, Create } from "react-admin";
 import PersonIcon from '@material-ui/icons/Person';
 
-export const AddressField = ({ source }) => {
+export const AddressField = () => {
   const record = useRecordContext();
-  const address = record[source];
+  const address = record;
 
   return address ? (
     <span>
-      {address.street}, {address.city}, {address.zipcode}
+      {record.street_address}, {record.city}, {record.postal_code}
     </span>
   ) : "";
 };
@@ -48,9 +48,7 @@ export const UserList = props => (
       <TextField source="last_name" />
       <EmailField source="email" type="email" />
       <TextField source="phone_number" />
-      <TextInput source="street_address" label="Street Address" />
-      <TextInput source="city" label="City" />
-      <TextInput source="postal_code" label="Postal Code" /> 
+      <AddressField/>
     </Datagrid>
   </List>
 );

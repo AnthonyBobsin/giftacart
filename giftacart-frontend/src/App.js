@@ -16,7 +16,7 @@ const httpClient = (url, options = {}) => {
     if (!options.headers) {
         options.headers = new Headers({ Accept: 'application/json' });
     }
-  options.headers.set('Access-Control-Expose-Headers', 'http://localhost:3000/');
+  options.headers.set('Access-Control-Expose-Headers', 'http://localhost:3001/');
     return fetchUtils.fetchJson(url, options);
 };
 
