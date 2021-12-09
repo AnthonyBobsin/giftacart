@@ -16,19 +16,49 @@ RSpec.describe "/products", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # Product. As you add validations to Product, be sure to
   # adjust the attributes here as well.
+  let(:store_1) do
+    Store.create!(
+      {
+        name: "Liberty Village Store #1",
+        street_address: "190 Liberty Street",
+        city: "Toronto",
+        postal_code: "M6K3L5",
+        state: "Ontario",
+        country: "Canada",
+        phone_number: "555-123-4567",
+        postal_codes: []
+      }
+    )
+  end
+
+  let(:store_2) do
+    Store.create!(
+      {
+        name: "Harbourfront Store #2",
+        street_address: "309 Queens Quay",
+        city: "Toronto",
+        postal_code: "M2V6L4",
+        state: "Ontario",
+        country: "Canada",
+        phone_number: "555-123-3237",
+        postal_codes: []
+      }
+    )
+  end
+
   let(:valid_attributes) {
     {
       name: "Fairlife Milk 2%",
       unit_price: 5.75,
-      store_id: 1
+      store_id: store_1.id
     }
   }
 
   let(:invalid_attributes) {
     {
       name: "Fairlife Milk 2%",
-      unit_price: 5.75,
-      store_id: nil
+      unit_price: nil,
+      store_id: store_1.id
     }
   }
 
@@ -45,6 +75,22 @@ RSpec.describe "/products", type: :request do
       Product.create! valid_attributes
       get products_url, headers: valid_headers, as: :json
       expect(response).to be_successful
+    end
+
+    it "fetches subset of products" do
+      Product.create! valid_attributes
+      Product.create! valid_attributes.merge(
+        {
+          name: "Liberty White Bread",
+          unit_price: 3.25,
+          store_id: store_2.id 
+        }
+      )
+      get products_url({ store_id: store_1.id }), headers: valid_headers, as: :json
+
+      expect(response).to be_successful
+      expect(JSON.parse(response.body).size).to eq(1)
+      expect(JSON.parse(response.body)[0]["store_id"]).to eq(1)
     end
   end
 
@@ -85,7 +131,7 @@ RSpec.describe "/products", type: :request do
         post products_url,
              params: { product: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq("application/json")
+        expect(response.content_type).to match(a_string_including("application/json"))
       end
     end
   end
@@ -103,7 +149,7 @@ RSpec.describe "/products", type: :request do
         patch product_url(product),
               params: { product: new_attributes }, headers: valid_headers, as: :json
         product.reload
-        skip("Add assertions for updated state")
+        expect(product.unit_price).to eq(new_attributes[:unit_price])
       end
 
       it "renders a JSON response with the product" do
@@ -121,7 +167,7 @@ RSpec.describe "/products", type: :request do
         patch product_url(product),
               params: { product: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq("application/json")
+        expect(response.content_type).to match(a_string_including("application/json"))
       end
     end
   end
