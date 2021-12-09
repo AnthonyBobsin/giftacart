@@ -1,6 +1,7 @@
 import * as React from "react";
-import { Datagrid, DateField, List, ReferenceField, TextField, useRecordContext } from "react-admin";
+import { Button, Datagrid, DateField, ExportButton, List, ReferenceField, TextField, TopToolbar, useRecordContext } from "react-admin";
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
+import AddIcon from '@material-ui/icons/Add';
 import { AddressField } from "./users";
 
 export const ItemsField = ({ source }) => {
@@ -12,8 +13,21 @@ export const ItemsField = ({ source }) => {
   );
 }
 
+const ListActions = props => {
+  const { onCreate, ...rest } = props;
+
+  return (
+    <TopToolbar {...rest}>
+      <Button label="Create" onClick={onCreate}>
+        <AddIcon />
+      </Button>
+      <ExportButton />
+    </TopToolbar>
+  )
+}
+
 export const OrderList = props => (
-  <List {...props}>
+  <List {...props} actions={<ListActions onCreate={() => props.history.push("/orders/new")} />}>
     <Datagrid rowClick="edit">
       <TextField source="reference" />
       <TextField source="group_code" />
