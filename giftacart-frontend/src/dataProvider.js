@@ -47,6 +47,15 @@ const dataProvider = fakeDataProvider({
       store: 1,
       id: "item-123789",
     },
+  ],
+  time_slots: [
+    {
+      id: "slot-909",
+      date: "2021-12-14",
+      window_starts_at: "2021-12-14T13:00:00Z",
+      window_ends_at: "2021-12-14T15:00:00Z",
+      store: 1,
+    }
   ]
 });
 

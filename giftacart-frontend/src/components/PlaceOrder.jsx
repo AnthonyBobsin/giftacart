@@ -6,6 +6,7 @@ import { UserList } from "../resources/users";
 import { Box, Button, Step, StepLabel, Stepper } from "@material-ui/core";
 import SelectUsers from "./SelectUsers";
 import SelectProducts from "./SelectProducts";
+import SelectTimeSlots from "./SelectTimeSlots";
 
 const UserBulkActionButtons = ({ selectedIds, handleSelect }) => (
   <Fragment>
@@ -19,6 +20,7 @@ const PlaceOrder = props => {
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [activeStep, setActiveStep] = useState(0);
   const [selectedProducts, setSelectedProducts] = useState([]);
+  const [selectedTimeSlots, setSelectedTimeSlots] = useState([]);
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -31,9 +33,8 @@ const PlaceOrder = props => {
   const stepComponents = {
     0: <SelectUsers selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers} />,
     1: <SelectProducts selectedProducts={selectedProducts} setSelectedProducts={setSelectedProducts}/>,
-    2: <span>Time Slot select</span>,
+    2: <SelectTimeSlots selectedTimeSlots={selectedTimeSlots} setSelectedTimeSlots={setSelectedTimeSlots} />,
   };
-
 
   return (
     <Card>

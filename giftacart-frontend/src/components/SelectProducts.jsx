@@ -64,24 +64,24 @@ const SelectProducts = props => {
         <div style={{ margin: "40px 0" }}>{title}</div>
         {Object.keys(productsByStore).map((store, idx) => (
           <Accordion key={idx} expanded={expandedStore === store} onChange={(event, isExpanded) => setExpandedStore(isExpanded ? store : "")}>
-          <AccordionSummary expandIcon={<ExpandMore />} >
-            {`Store ${store}`}
-          </AccordionSummary>
-          <AccordionDetails>
-            <div style={{ width: "100%" }}>
-            {productsByStore[store].map((product, idx2) => (
-              <Grid justifyContent="space-between" container key={idx2}>
-                <Grid item style={{ margin: "auto 0" }}>
-                  {product.name}
+            <AccordionSummary expandIcon={<ExpandMore />} >
+              {`Store ${store}`}
+            </AccordionSummary>
+            <AccordionDetails>
+              <div style={{ width: "100%" }}>
+              {productsByStore[store].map((product, idx2) => (
+                <Grid justifyContent="space-between" container key={idx2}>
+                  <Grid item style={{ margin: "auto 0" }}>
+                    {product.name}
+                  </Grid>
+                  <Grid item>
+                    <Checkbox checked={selectedProductIds.includes(product.id)} onChange={() => handleToggle(product)}/>
+                  </Grid>
                 </Grid>
-                <Grid item>
-                  <Checkbox checked={selectedProductIds.includes(product.id)} onChange={() => handleToggle(product)}/>
-                </Grid>
-              </Grid>
-            ))}
-            </div>
-          </AccordionDetails>
-        </Accordion>
+              ))}
+              </div>
+            </AccordionDetails>
+          </Accordion>
         ))}
       </Fragment>
     );
