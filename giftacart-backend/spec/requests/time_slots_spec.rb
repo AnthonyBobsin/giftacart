@@ -16,19 +16,49 @@ RSpec.describe "/time_slots", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # TimeSlot. As you add validations to TimeSlot, be sure to
   # adjust the attributes here as well.
+  let(:store_1) do
+    Store.create!(
+      {
+        name: "Liberty Village Store #1",
+        street_address: "190 Liberty Street",
+        city: "Toronto",
+        postal_code: "M6K3L5",
+        state: "Ontario",
+        country: "Canada",
+        phone_number: "555-123-4567",
+        postal_codes: []
+      }
+    )
+  end
+
+  let(:store_2) do
+    Store.create!(
+      {
+        name: "Harbourfront Store #2",
+        street_address: "309 Queens Quay",
+        city: "Toronto",
+        postal_code: "M2V6L4",
+        state: "Ontario",
+        country: "Canada",
+        phone_number: "555-123-3237",
+        postal_codes: []
+      }
+    )
+  end
+
   let(:valid_attributes) {
     {
-      from_time: "09:00:00",
-      to_time: "10:00:00",
-      store_id: 1,
+      from_time: "09:00:00".to_time,
+      to_time: "10:00:00".to_time,
+      store_id: store_1.id,
     }
   }
 
   let(:invalid_attributes) {
     {
-      from_time: "09:00:00",
-      to_time: "10:00:00",
-      store_id: nil,
+      from_time: nil,
+      to_time: nil,
+      store_id: store_1.id,
     }
   }
 
@@ -45,6 +75,16 @@ RSpec.describe "/time_slots", type: :request do
       TimeSlot.create! valid_attributes
       get time_slots_url, headers: valid_headers, as: :json
       expect(response).to be_successful
+    end
+
+    it "fetches timeslots for store" do
+      TimeSlot.create! valid_attributes
+      TimeSlot.create! valid_attributes.merge({ store_id: store_2.id })
+      get time_slots_url({ store_id: store_1.id }), headers: valid_headers, as: :json
+
+      expect(response).to be_successful
+      expect(JSON.parse(response.body).size).to eq(1)
+      expect(JSON.parse(response.body)[0]["store_id"]).to eq(1)
     end
   end
 
@@ -85,7 +125,7 @@ RSpec.describe "/time_slots", type: :request do
         post time_slots_url,
              params: { time_slot: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq("application/json")
+        expect(response.content_type).to match(a_string_including("application/json"))
       end
     end
   end
@@ -94,8 +134,8 @@ RSpec.describe "/time_slots", type: :request do
     context "with valid parameters" do
       let(:new_attributes) {
         {
-          from_time: "09:00:00",
-          to_time: "11:00:00",
+          from_time: "09:00:00".to_time,
+          to_time: "11:00:00".to_time,
         }
       }
 
@@ -104,7 +144,8 @@ RSpec.describe "/time_slots", type: :request do
         patch time_slot_url(time_slot),
               params: { time_slot: new_attributes }, headers: valid_headers, as: :json
         time_slot.reload
-        skip("Add assertions for updated state")
+        expect(time_slot.from_time).to eq(new_attributes[:from_time])
+        expect(time_slot.to_time).to eq(new_attributes[:to_time])
       end
 
       it "renders a JSON response with the time_slot" do
@@ -122,7 +163,7 @@ RSpec.describe "/time_slots", type: :request do
         patch time_slot_url(time_slot),
               params: { time_slot: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq("application/json")
+        expect(response.content_type).to match(a_string_including("application/json"))
       end
     end
   end

@@ -4,6 +4,11 @@ class ProductsController < ApplicationController
   # GET /products
   def index
     @products = Product.joins(:store).select('products.*, stores.name as store_name')
+    @products = if filtering_params.present?
+      @products.where(**filtering_params)
+    else
+      @products.all
+    end
 
     render json: @products
   end
@@ -51,6 +56,6 @@ class ProductsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def product_params
-      params.require(:product).permit(:name, :price, :store_id)
+      params.require(:product).permit(:name, :unit_price, :store_id)
     end
 end

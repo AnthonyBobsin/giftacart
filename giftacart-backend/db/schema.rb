@@ -65,8 +65,8 @@ ActiveRecord::Schema.define(version: 2021_12_09_225155) do
   end
 
   create_table "time_slots", force: :cascade do |t|
-    t.time "from_time"
-    t.time "to_time"
+    t.datetime "from_time"
+    t.datetime "to_time"
     t.integer "store_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

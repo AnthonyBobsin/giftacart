@@ -95,7 +95,7 @@ RSpec.describe "/stores", type: :request do
         post stores_url,
              params: { store: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq("application/json")
+        expect(response.content_type).to match(a_string_including("application/json"))
       end
     end
   end
@@ -113,7 +113,7 @@ RSpec.describe "/stores", type: :request do
         patch store_url(store),
               params: { store: new_attributes }, headers: valid_headers, as: :json
         store.reload
-        skip("Add assertions for updated state")
+        expect(store.phone_number).to eq(new_attributes[:phone_number])
       end
 
       it "renders a JSON response with the store" do
@@ -131,7 +131,7 @@ RSpec.describe "/stores", type: :request do
         patch store_url(store),
               params: { store: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq("application/json")
+        expect(response.content_type).to match(a_string_including("application/json"))
       end
     end
   end
