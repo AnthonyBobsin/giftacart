@@ -10,6 +10,11 @@ bundle exec rails db:migrate
 RAILS_ENV=test bundle exec rails db:migrate
 ```
 
+Create fixtures
+```sh
+bundle exec rake db:seed:replant
+```
+
 Run backend server
 ```sh
 rails s -p 3001
