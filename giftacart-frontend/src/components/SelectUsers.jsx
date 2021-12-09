@@ -46,10 +46,11 @@ const SelectUsers = props => {
   }
   return (
     <Datagrid {...dataGridProps}> 
-      <TextField source="name" />
-      <EmailField source="email" />
-      <TextField source="phone" />
-      <AddressField source="address"/>
+      <TextField source="first_name" />
+      <TextField source="last_name" />
+      <EmailField source="email" type="email" />
+      <TextField source="phone_number" />
+      <AddressField/>
     </Datagrid>
   )
 };

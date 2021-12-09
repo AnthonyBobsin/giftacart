@@ -1,13 +1,13 @@
-import { Accordion, AccordionSummary, AccordionDetails, CardContent, Checkbox, Grid, TextField } from "@material-ui/core";
+import { Accordion, AccordionSummary, AccordionDetails, CardContent, Checkbox, Divider, Grid, TextField } from "@material-ui/core";
 import React, { Fragment, useEffect, useState } from "react";
 import { Button, useDataProvider } from "react-admin";
 import ExpandMore from '@material-ui/icons/ExpandMore';
 
 const groupProductsByStore = products => products.reduce((memo, current) => {
-  if (!(current.store in memo)) {
-    memo[current.store] = [];
+  if (!(current.store_id in memo)) {
+    memo[current.store_id] = [];
   }
-  memo[current.store].push(current);
+  memo[current.store_id].push(current);
 
   return memo;
 }, {});
@@ -65,6 +65,7 @@ const SelectProducts = props => {
         {Object.keys(productsByStore).map((store, idx) => (
           <Accordion key={idx} expanded={expandedStore === store} onChange={(event, isExpanded) => setExpandedStore(isExpanded ? store : "")}>
             <AccordionSummary expandIcon={<ExpandMore />} >
+              {/* TODO(bobsin): fetch the store name */}
               {`Store ${store}`}
             </AccordionSummary>
             <AccordionDetails>
@@ -99,6 +100,7 @@ const SelectProducts = props => {
         />
       <div><Button onClick={() => setSearching(true)} label="Search" /></div>
       <ProductListByStore title="Query Results" productsByStore={productsByStore}/>
+      <Divider />
       <ProductListByStore title="Selected Products" productsByStore={selectedProductsByStore}/>
     </CardContent>
   );
