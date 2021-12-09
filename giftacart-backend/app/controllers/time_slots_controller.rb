@@ -3,7 +3,7 @@ class TimeSlotsController < ApplicationController
 
   # GET /time_slots
   def index
-    @time_slots = if filtering_params
+    @time_slots = if filtering_params.present?
       TimeSlot.where(**filtering_params)
     else
       TimeSlot.all

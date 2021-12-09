@@ -4,7 +4,7 @@ class ProductsController < ApplicationController
   # GET /products
   def index
     @products = Product.joins(:store).select('products.*, stores.name as store_name')
-    @products = if filtering_params
+    @products = if filtering_params.present?
       @products.where(**filtering_params)
     else
       @products.all
