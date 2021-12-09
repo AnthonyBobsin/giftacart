@@ -3,7 +3,11 @@ class ProductsController < ApplicationController
 
   # GET /products
   def index
-    @products = Product.all
+<<<<<<< Updated upstream
+    @products = Product.where(**filtering_params)
+=======
+    @products = Product.joins(:store).select('products.*, stores.name as store_name')
+>>>>>>> Stashed changes
 
     render json: @products
   end
@@ -42,6 +46,11 @@ class ProductsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_product
       @product = Product.find(params[:id])
+    end
+
+    # Params to filter results by if passed
+    def filtering_params
+      params.slice(:store_id).permit!
     end
 
     # Only allow a trusted parameter "white list" through.
