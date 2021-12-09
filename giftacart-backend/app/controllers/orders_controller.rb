@@ -3,7 +3,11 @@ class OrdersController < ApplicationController
 
   # GET /orders
   def index
-    @orders = Order.where(**filtering_params)
+    @orders = if filtering_params
+      Order.where(**filtering_params)
+    else
+      Order.all
+    end
 
     render json: @orders
   end
