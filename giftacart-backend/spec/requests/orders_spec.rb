@@ -44,8 +44,8 @@ RSpec.describe "/orders", type: :request do
   let(:timeslot) do
     TimeSlot.create!(
       {
-        from_time: "09:00:00",
-        to_time: "10:00:00",
+        from_time: "09:00:00".to_time,
+        to_time: "10:00:00".to_time,
         store_id: store.id,
       }
     )

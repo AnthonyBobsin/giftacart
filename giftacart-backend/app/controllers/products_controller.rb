@@ -3,7 +3,11 @@ class ProductsController < ApplicationController
 
   # GET /products
   def index
-    @products = Product.where(**filtering_params)
+    @products = if filtering_params
+      Product.where(**filtering_params)
+    else
+      Product.all
+    end
 
     render json: @products
   end

@@ -3,7 +3,11 @@ class TimeSlotsController < ApplicationController
 
   # GET /time_slots
   def index
-    @time_slots = TimeSlot.all
+    @time_slots = if filtering_params
+      TimeSlot.where(**filtering_params)
+    else
+      TimeSlot.all
+    end
 
     render json: @time_slots
   end
@@ -44,8 +48,13 @@ class TimeSlotsController < ApplicationController
       @time_slot = TimeSlot.find(params[:id])
     end
 
+    # Params to filter results by if passed
+    def filtering_params
+      params.slice(:store_id).permit!
+    end
+
     # Only allow a trusted parameter "white list" through.
     def time_slot_params
-      params.require(:time_slot).permit(:from_time, :to_time, :store)
+      params.require(:time_slot).permit(:from_time, :to_time, :store_id)
     end
 end
