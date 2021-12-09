@@ -42,7 +42,7 @@ const SelectTimeSlots = props => {
               {timeslotsByDate[date].map((timeSlot, idx2) => (
                 <Grid justifyContent="space-between" container key={idx2}>
                   <Grid item style={{ margin: "auto 0" }}>
-                    {`${timeSlot.window_starts_at} - ${timeSlot.window_ends_at}`}
+                    {`${timeSlot.from_time} - ${timeSlot.to_time}`}
                   </Grid>
                   <Grid item>
                     {
