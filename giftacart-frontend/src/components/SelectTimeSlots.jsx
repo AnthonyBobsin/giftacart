@@ -37,7 +37,7 @@ const SelectTimeSlots = props => {
   return (
     <CardContent>
       {Object.keys(timeslotsByDate).map((date, idx) => (
-        <Accordion key={idx}>
+        <Accordion defaultExpanded={selectedTimeSlots.length > 0 ? selectedTimeSlots.filter(ts => date == humanDate(ts.from_time)).length > 0 : idx === 0} key={idx}>
           <AccordionSummary expandIcon={<ExpandMore />}>
             {date}
           </AccordionSummary>

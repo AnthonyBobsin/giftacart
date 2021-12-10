@@ -3,7 +3,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Button, useDataProvider } from "react-admin";
 import ExpandMore from '@material-ui/icons/ExpandMore';
 
-const groupProductsByStore = products => products.reduce((memo, current) => {
+export const groupProductsByStore = products => products.reduce((memo, current) => {
   const storeId = current.store_name;
 
   if (!(storeId in memo)) {
