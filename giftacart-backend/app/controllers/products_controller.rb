@@ -10,6 +10,8 @@ class ProductsController < ApplicationController
       @products.all
     end
 
+    apply_content_range_header("products 0-10/#{(@products.size / 10) + 1}")
+
     render json: @products
   end
 
