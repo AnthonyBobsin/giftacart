@@ -9,12 +9,20 @@
 require 'time'
 
 stores = Store.create([{name: "Costco", street_address: "50 Beale St, San Francisco, CA"}, {name: "Marianos", street_address: "345 W Roosevelt Rd, Lombard, IL 60148"}])
-timeslots = TimeSlot.create(
-  [
-    {from_time: Time.now.next_day(1).to_time , to_time: DateTime.now.next_day(10).to_time, store_id: stores[0].id},
-    {from_time: Time.now.next_day(1).to_time , to_time: DateTime.now.next_day(5).to_time, store_id: stores[0].id}
-  ]
-)
+
+time_slots = []
+slot_start_time = Time.now.next_day.change(hour: 10, min: 0, sec: 0)
+slot_end_time = Time.now.next_day(2).change(hour: 20, min: 0, sec: 0)
+
+while slot_start_time < slot_end_time
+  if slot_start_time >= 10 && slot_start_time.hour < 20
+    time_slots << { from_time: slot_start_time, to_time: slot_start_time + 1.hour, store_id: stores[0].id }
+  end
+
+  slot_start_time += 3600
+end
+
+timeslots = TimeSlot.create(time_slots)
 products = Product.create(
 	[
 		{
