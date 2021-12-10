@@ -85,12 +85,15 @@ ActiveRecord::Schema.define(version: 2021_12_09_225155) do
     t.string "country"
     t.string "phone_number"
     t.boolean "admin", default: false, null: false
+    t.integer "store_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["store_id"], name: "index_users_on_store_id"
   end
 
   add_foreign_key "order_items", "orders"
   add_foreign_key "orders", "users"
   add_foreign_key "products", "stores"
   add_foreign_key "time_slots", "stores"
+  add_foreign_key "users", "stores"
 end

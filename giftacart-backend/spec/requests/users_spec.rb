@@ -16,11 +16,42 @@ RSpec.describe "/users", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # User. As you add validations to User, be sure to
   # adjust the attributes here as well.
+  let(:store_1) do
+    Store.create!(
+      {
+        name: "Liberty Village Store #1",
+        street_address: "190 Liberty Street",
+        city: "Toronto",
+        postal_code: "M6K3L5",
+        state: "Ontario",
+        country: "Canada",
+        phone_number: "555-123-4567",
+        postal_codes: []
+      }
+    )
+  end
+
+  let(:store_2) do
+    Store.create!(
+      {
+        name: "Harbourfront Store #2",
+        street_address: "309 Queens Quay",
+        city: "Toronto",
+        postal_code: "M2V6L4",
+        state: "Ontario",
+        country: "Canada",
+        phone_number: "555-123-3237",
+        postal_codes: []
+      }
+    )
+  end
+
   let(:valid_attributes) {
     {
       first_name: "Bobby",
       street_address: "190 Liberty Street",
       postal_code: "M6K3L5",
+      store_id: store_1.id,
     }
   }
 
@@ -29,6 +60,7 @@ RSpec.describe "/users", type: :request do
       first_name: "Bobby",
       street_address: "190 Liberty Street",
       postal_code: nil,
+      store_id: store_1.id,
     }
   }
 
@@ -45,6 +77,22 @@ RSpec.describe "/users", type: :request do
       User.create! valid_attributes
       get users_url, headers: valid_headers, as: :json
       expect(response).to be_successful
+    end
+
+     it "fetches users for store" do
+      User.create! valid_attributes
+      User.create! valid_attributes.merge(
+        {
+          first_name: "Dobby",
+          street_address: "309 Queens Quay",
+          store_id: store_2.id 
+        }
+      )
+      get users_url({ store_id: store_1.id }), headers: valid_headers, as: :json
+
+      expect(response).to be_successful
+      expect(JSON.parse(response.body).size).to eq(1)
+      expect(JSON.parse(response.body)[0]["store_id"]).to eq(1)
     end
   end
 

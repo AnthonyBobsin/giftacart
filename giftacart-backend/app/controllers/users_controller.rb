@@ -3,7 +3,11 @@ class UsersController < ApplicationController
 
   # GET /users
   def index
-    @users = User.all
+    @users = if filtering_params.present?
+      User.where(**filtering_params)
+    else
+      User.all
+    end
 
     render json: @users
   end
@@ -44,8 +48,13 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
+  # Params to filter results by if passed
+  def filtering_params
+    params.slice(:store_id).permit!
+  end
+
   # Only allow a trusted parameter "white list" through.
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :street_address, :apartment_number, :city, :postal_code, :state, :country, :phone_number, :admin)
+    params.require(:user).permit(:first_name, :last_name, :email, :street_address, :apartment_number, :city, :postal_code, :state, :country, :phone_number, :admin, :store_id)
   end
 end

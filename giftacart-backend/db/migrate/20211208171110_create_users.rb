@@ -13,6 +13,8 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.string :phone_number
       t.boolean :admin, default: false, null: false
 
+      t.belongs_to :store, null: false, foreign_key: true
+
       t.timestamps
     end
   end
