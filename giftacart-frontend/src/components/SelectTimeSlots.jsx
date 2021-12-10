@@ -11,6 +11,7 @@ const SelectTimeSlots = props => {
   const [timeslots, setTimeslots] = useState([]);
 
   useEffect(() => {
+    // TODO(bobsin): change this to getList
     dataProvider
       .getMany("time_slots", { ids: ["slot-909"] })
       .then(({ data }) => {
@@ -36,7 +37,7 @@ const SelectTimeSlots = props => {
   return (
     <CardContent>
       {Object.keys(timeslotsByDate).map((date, idx) => (
-        <Accordion expanded key={idx}>
+        <Accordion key={idx}>
           <AccordionSummary expandIcon={<ExpandMore />}>
             {date}
           </AccordionSummary>
