@@ -12,7 +12,7 @@ const SelectUsers = props => {
   useEffect(() => {
     // TODO(bobsin): change this to getList
     dataProvider
-      .getMany("users", { ids: [1] })
+      .getList("users", { sort: { field: "id", order: "DESC" }, filter: {}, pagination: { page: 1, perPage: 1 } })
       .then(({ data }) => {
         setUsers(data);
       })

@@ -60,13 +60,16 @@ const PlaceOrder = connect(undefined, { showNotification })(props => {
       }));
       const numOrders = ordersToCreate.length;
 
-      Promise
-        .all(ordersToCreate.map(data => dataProvider.create("orders", { data })))
-        .then(() => {
-          showNotification(`Created ${numOrders} order${numOrders === 1 ? "" : "s"} 🎉`);
-          history.push("/orders");
-        })
-        .catch(() => showNotification(`Failed to create order${numOrders === 1 ? "" : "s"}`, "warning"));
+      try {
+        ordersToCreate.forEach(async data => {
+          await dataProvider.create("orders", { data })
+        });
+        showNotification(`Created ${numOrders} order${numOrders === 1 ? "" : "s"} 🎉`);
+        history.push("/orders");
+      } catch (e) {
+        console.error(e);
+        showNotification(`Failed to create order${numOrders === 1 ? "" : "s"}`, "warning");
+      }
     } else {
       setActiveStep(activeStep + 1);
     }
