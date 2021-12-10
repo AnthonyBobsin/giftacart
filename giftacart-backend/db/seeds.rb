@@ -15,7 +15,7 @@ slot_start_time = Time.now.next_day.change(hour: 10, min: 0, sec: 0)
 slot_end_time = Time.now.next_day(2).change(hour: 20, min: 0, sec: 0)
 
 while slot_start_time < slot_end_time
-  if slot_start_time >= 10 && slot_start_time.hour < 20
+  if slot_start_time.hour >= 10 && slot_start_time.hour < 20
     time_slots << { from_time: slot_start_time, to_time: slot_start_time + 1.hour, store_id: stores[0].id }
   end
 
