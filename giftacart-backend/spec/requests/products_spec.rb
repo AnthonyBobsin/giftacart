@@ -86,7 +86,7 @@ RSpec.describe "/products", type: :request do
           store_id: store_2.id 
         }
       )
-      get products_url({ store_id: store_1.id }), headers: valid_headers, as: :json
+      get products_url(filter: { store_id: store_1.id }.to_json), headers: valid_headers, as: :json
 
       expect(response).to be_successful
       expect(JSON.parse(response.body).size).to eq(1)

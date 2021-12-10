@@ -10,6 +10,8 @@ class ProductsController < ApplicationController
       @products.all
     end
 
+    apply_content_range_header("products 0-10/#{(@products.size / 10) + 1}")
+
     render json: @products
   end
 
@@ -51,7 +53,7 @@ class ProductsController < ApplicationController
 
     # Params to filter results by if passed
     def filtering_params
-      params.slice(:store_id).permit!
+      JSON.parse(params[:filter] || "{}", symbolize_names: true).slice(:id, :store_id)
     end
 
     # Only allow a trusted parameter "white list" through.

@@ -40,7 +40,7 @@ const PlaceOrder = connect(undefined, { showNotification })(props => {
 
       // TODO(bobsin): move this to users
       const store = 1;
-      const storeProducts = selectedProducts.filter(p => p.store === store);
+      const storeProducts = selectedProducts.filter(p => p.store_id === store);
 
       const ordersToCreate = selectedUsers.map((user, i) => ({
         created_at: new Date().toISOString(),
@@ -56,17 +56,20 @@ const PlaceOrder = connect(undefined, { showNotification })(props => {
           unit_price: product.unit_price,
         })),
         // items: selectedProducts.filter(p => p.store === store),
-        sub_total: storeProducts.reduce((memo, current) => memo + parseFloat(current.price), 0),
+        sub_total: storeProducts.reduce((memo, current) => memo + parseFloat(current.unit_price), 0),
       }));
       const numOrders = ordersToCreate.length;
 
-      Promise
-        .all(ordersToCreate.map(data => dataProvider.create("orders", { data })))
-        .then(() => {
-          showNotification(`Created ${numOrders} order${numOrders > 1 ? "s" : ""} 🎉`);
-          history.push("/orders");
-        })
-        .catch(() => showNotification(`Failed to create order${numOrders > 1 ? "s" : ""}`, "warning"));
+      try {
+        ordersToCreate.forEach(async data => {
+          await dataProvider.create("orders", { data })
+        });
+        showNotification(`Created ${numOrders} order${numOrders === 1 ? "" : "s"} 🎉`);
+        history.push("/orders");
+      } catch (e) {
+        console.error(e);
+        showNotification(`Failed to create order${numOrders === 1 ? "" : "s"}`, "warning");
+      }
     } else {
       setActiveStep(activeStep + 1);
     }
@@ -104,7 +107,11 @@ const PlaceOrder = connect(undefined, { showNotification })(props => {
           </Box>
 
           <Button onClick={handleNext}>
-            {activeStep === Object.keys(stepComponents).length - 1 ? 'Finish' : 'Next'}
+            {
+              activeStep === Object.keys(stepComponents).length - 1
+                ? `Place ${selectedUsers.length} Order${selectedUsers.length === 1 ? "" : "s"}`
+                : 'Next'
+            }
           </Button>
         </Box>
 

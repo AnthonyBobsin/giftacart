@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Datagrid, EmailField, TextField } from "ra-ui-materialui";
 import { useDataProvider } from "react-admin";
-import { AddressField } from "../resources/users";
+import { AddressField, FullNameField } from "../resources/users";
 
 const SelectUsers = props => {
   const { selectedUsers, setSelectedUsers } = props;
@@ -12,7 +12,7 @@ const SelectUsers = props => {
   useEffect(() => {
     // TODO(bobsin): change this to getList
     dataProvider
-      .getMany("users", { ids: [1] })
+      .getList("users", { sort: { field: "id", order: "DESC" }, filter: {}, pagination: { page: 1, perPage: 1 } })
       .then(({ data }) => {
         setUsers(data);
       })
@@ -46,11 +46,10 @@ const SelectUsers = props => {
   }
   return (
     <Datagrid {...dataGridProps}> 
-      <TextField source="first_name" />
-      <TextField source="last_name" />
+      <FullNameField label="Name" />
       <EmailField source="email" type="email" />
       <TextField source="phone_number" />
-      <AddressField/>
+      <AddressField label="Address"/>
     </Datagrid>
   )
 };

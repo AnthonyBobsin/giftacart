@@ -9,6 +9,8 @@ class UsersController < ApplicationController
       User.all
     end
 
+    apply_content_range_header("users 0-10/#{(@users.size / 10) + 1}")
+
     render json: @users
   end
 
@@ -50,7 +52,11 @@ class UsersController < ApplicationController
 
   # Params to filter results by if passed
   def filtering_params
+<<<<<<< HEAD
     params.slice(:store_id).permit!
+=======
+    JSON.parse(params[:filter] || "{}", symbolize_names: true).slice(:id)
+>>>>>>> 99d357dd2a1e86937bef932b30e0caf34dc52608
   end
 
   # Only allow a trusted parameter "white list" through.

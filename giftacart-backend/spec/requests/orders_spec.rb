@@ -87,7 +87,7 @@ RSpec.describe "/orders", type: :request do
 
   let(:invalid_attributes) {
     {
-      user_id: user.id,
+      user_id: nil,
       sub_total: 11.50,
       fulfillment_date: nil,
       fees_total: 2.00,
@@ -118,7 +118,7 @@ RSpec.describe "/orders", type: :request do
     it "fetches subset of orders" do
       Order.create! valid_attributes
       Order.create! valid_attributes.merge({:bulk_order_num => '2'})
-      get orders_url({ bulk_order_num: '1' }), headers: valid_headers, as: :json
+      get orders_url(filter: { bulk_order_num: '1' }.to_json), headers: valid_headers, as: :json
 
       expect(response).to be_successful
       expect(JSON.parse(response.body).size).to eq(1)

@@ -3,11 +3,13 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Button, useDataProvider } from "react-admin";
 import ExpandMore from '@material-ui/icons/ExpandMore';
 
-const groupProductsByStore = products => products.reduce((memo, current) => {
-  if (!(current.store_id in memo)) {
-    memo[current.store_id] = [];
+export const groupProductsByStore = products => products.reduce((memo, current) => {
+  const storeId = current.store_name;
+
+  if (!(storeId in memo)) {
+    memo[storeId] = [];
   }
-  memo[current.store_id].push(current);
+  memo[storeId].push(current);
 
   return memo;
 }, {});
@@ -28,7 +30,7 @@ const SelectProducts = props => {
     if (searching === true) {
       if (productQuery.length > 2) {
         dataProvider
-          .getMany("products", { ids: ["item-123123", "item-123456", "item-123789"] })
+          .getList("products", { sort: { field: "id", order: "DESC" }, filter: {}, pagination: { page: 1, perPage: 1 } })
           .then(({ data }) => {
             const selectedProducts = data.filter(p => p.name.toLowerCase().includes(productQuery.toLowerCase()));
             setProducts(selectedProducts);
@@ -65,8 +67,7 @@ const SelectProducts = props => {
         {Object.keys(productsByStore).map((store, idx) => (
           <Accordion key={idx} expanded={expandedStore === store} onChange={(event, isExpanded) => setExpandedStore(isExpanded ? store : "")}>
             <AccordionSummary expandIcon={<ExpandMore />} >
-              {/* TODO(bobsin): fetch the store name */}
-              {`Store ${store}`}
+              {store}
             </AccordionSummary>
             <AccordionDetails>
               <div style={{ width: "100%" }}>
@@ -100,7 +101,7 @@ const SelectProducts = props => {
         />
       <div><Button onClick={() => setSearching(true)} label="Search" /></div>
       <ProductListByStore title="Query Results" productsByStore={productsByStore}/>
-      <Divider />
+      {Object.keys(productsByStore).length > 0 && <Divider />}
       <ProductListByStore title="Selected Products" productsByStore={selectedProductsByStore}/>
     </CardContent>
   );
