@@ -30,7 +30,7 @@ const Checkout = props => {
     return (
       <Fragment>
         <div style={{ margin: "20px 0"}}>
-          {`${users.length} selected customer${users.length > 1 ? "s" : ""}`}
+          {`${users.length} selected customer${users.length === 1 ? "" : "s"}`}
         </div>
         <Datagrid {...dataGridProps}>
           <FullNameField label="Name" />
@@ -49,7 +49,7 @@ const Checkout = props => {
     return (
       <Fragment>
         <div style={{ margin: "20px 0"}}>
-          {`${products.length} selected product${products.length > 1 ? "s" : ""}`}
+          {`${products.length} selected product${products.length === 1 ? "" : "s"}`}
         </div>
         {Object.keys(productsByStore).map((store, idx) => (
           <Accordion defaultExpanded={idx === 0} key={idx}>
@@ -81,10 +81,10 @@ const Checkout = props => {
       <Fragment>
         <div style={{ margin: "20px 0"}}>
           <div style={{ marginBottom: "20px" }}>
-            {`${timeSlots.length} selected time slot${timeSlots.length > 1 ? "s" : ""}`}
+            {`${timeSlots.length} selected time slot${timeSlots.length === 1 ? "" : "s"}`}
           </div>
           <div>
-            {`${humanDate(timeSlots[0].from_time)} between ${humanTime(timeSlots[0].from_time)} and ${humanTime(timeSlots[0].to_time)}`}
+            {`${humanDate(timeSlots[0] && timeSlots[0].from_time)} between ${humanTime(timeSlots[0] && timeSlots[0].from_time)} and ${humanTime(timeSlots[0] && timeSlots[0].to_time)}`}
           </div>
         </div>
       </Fragment>

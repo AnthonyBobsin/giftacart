@@ -63,10 +63,10 @@ const PlaceOrder = connect(undefined, { showNotification })(props => {
       Promise
         .all(ordersToCreate.map(data => dataProvider.create("orders", { data })))
         .then(() => {
-          showNotification(`Created ${numOrders} order${numOrders > 1 ? "s" : ""} 🎉`);
+          showNotification(`Created ${numOrders} order${numOrders === 1 ? "" : "s"} 🎉`);
           history.push("/orders");
         })
-        .catch(() => showNotification(`Failed to create order${numOrders > 1 ? "s" : ""}`, "warning"));
+        .catch(() => showNotification(`Failed to create order${numOrders === 1 ? "" : "s"}`, "warning"));
     } else {
       setActiveStep(activeStep + 1);
     }
@@ -104,7 +104,11 @@ const PlaceOrder = connect(undefined, { showNotification })(props => {
           </Box>
 
           <Button onClick={handleNext}>
-            {activeStep === Object.keys(stepComponents).length - 1 ? 'Finish' : 'Next'}
+            {
+              activeStep === Object.keys(stepComponents).length - 1
+                ? `Place ${selectedUsers.length} Order${selectedUsers.length === 1 ? "" : "s"}`
+                : 'Next'
+            }
           </Button>
         </Box>
 
