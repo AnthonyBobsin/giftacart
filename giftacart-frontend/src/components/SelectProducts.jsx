@@ -101,7 +101,7 @@ const SelectProducts = props => {
         />
       <div><Button onClick={() => setSearching(true)} label="Search" /></div>
       <ProductListByStore title="Query Results" productsByStore={productsByStore}/>
-      <Divider />
+      {Object.keys(productsByStore).length > 0 && <Divider />}
       <ProductListByStore title="Selected Products" productsByStore={selectedProductsByStore}/>
     </CardContent>
   );
