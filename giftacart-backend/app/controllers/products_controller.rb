@@ -51,7 +51,7 @@ class ProductsController < ApplicationController
 
     # Params to filter results by if passed
     def filtering_params
-      params.slice(:store_id).permit!
+      JSON.parse(params[:filter] || "{}", symbolize_names: true).slice(:id, :store_id)
     end
 
     # Only allow a trusted parameter "white list" through.

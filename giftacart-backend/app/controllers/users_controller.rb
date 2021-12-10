@@ -3,7 +3,13 @@ class UsersController < ApplicationController
 
   # GET /users
   def index
-    @users = User.all
+    @users = if filtering_params.present?
+      User.where(**filtering_params)
+    else
+      User.all
+    end
+
+    apply_content_range_header("users 0-10/#{(@users.size / 10) + 1}")
 
     render json: @users
   end
@@ -42,6 +48,11 @@ class UsersController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_user
     @user = User.find(params[:id])
+  end
+
+  # Params to filter results by if passed
+  def filtering_params
+    JSON.parse(params[:filter] || "{}", symbolize_names: true).slice(:id)
   end
 
   # Only allow a trusted parameter "white list" through.

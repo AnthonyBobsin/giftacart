@@ -9,6 +9,8 @@ class OrdersController < ApplicationController
       Order.all
     end
 
+    apply_content_range_header("orders 0-10/#{(@orders.size / 10) + 1}")
+
     render json: @orders
   end
 
@@ -43,37 +45,38 @@ class OrdersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_order
-      @order = Order.find(params[:id])
-    end
 
-    # Params to filter results by if passed
-    def filtering_params
-      params.slice(:fulfillment_date, :store_id, :timeslot_id, :bulk_order_num).permit!
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_order
+    @order = Order.find(params[:id])
+  end
 
-    # Only allow a trusted parameter "white list" through.
-    def order_params
-      params.require(:order).permit(
-        :user_id,
-        :sub_total,
-        :fulfillment_date,
-        :fees_total,
-        :tax_total,
-        :final_total,
-        :gift_comment,
-        :store_id,
-        :timeslot_id,
-        :bulk_order_num,
-        :status,
-        order_items_attributes: [
-          :name,
-          :product_id,
-          :quantity,
-          :uom,
-          :unit_price
-        ]
-      )
-    end
+  # Params to filter results by if passed
+  def filtering_params
+    JSON.parse(params[:filter] || "{}", symbolize_names: true).slice(:id, :fulfillment_date, :store_id, :timeslot_id, :bulk_order_num)
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def order_params
+    params.require(:order).permit(
+      :user_id,
+      :sub_total,
+      :fulfillment_date,
+      :fees_total,
+      :tax_total,
+      :final_total,
+      :gift_comment,
+      :store_id,
+      :timeslot_id,
+      :bulk_order_num,
+      :status,
+      order_items_attributes: [
+        :name,
+        :product_id,
+        :quantity,
+        :uom,
+        :unit_price
+      ]
+    )
+  end
 end
